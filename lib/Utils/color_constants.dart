@@ -14,6 +14,7 @@ class ColorConstants {
   static var lightWhite = const Color(0x66ffffff);
   static var PrimeredColor   = const Color(0xffEF233C);
   static var appcolor = const Color(0xFFFF5722);
+  static var deppp = const Color.fromARGB(255, 213, 85, 40);
   static var backgroundappColor = const Color(0xFFE8ECEF);
   static var splash = const Color(0xFF024B40);
 }

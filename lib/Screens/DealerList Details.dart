@@ -8,10 +8,21 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 import '../Utils/app_baar.dart';
+import 'Homepage.dart';
 
 class DealerDetails extends StatefulWidget {
   String dealerid;
-
+  Widget _buildCoverImage(Size screenSize) {
+    return Container(
+      height: screenSize.height / 2.6,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/cover.jpeg'),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
   DealerDetails({super.key, required this.dealerid});
 
   @override
@@ -69,97 +80,160 @@ class _DealerDetailsState extends State<DealerDetails> {
 
       ),
       drawer: show(),
-      body: dealerProfile.isNotEmpty ?
+      body: dealerProfile.isNotEmpty
+          ? SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 0),
+          child: Column(
+
+            children: [
 
 
-          
+              Container(
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: NetworkImage(
+                            "https://images.unsplash.com/photo-1557682260-96773eb01377?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=829&q=80"
+                        ),
+                        fit: BoxFit.cover
+                    )
+                ),
 
-
-      Padding(
-        padding: const EdgeInsets.only(top: 30),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(dealerProfile['logo']),
-                maxRadius: 80,
+                child: Container(
+                  width: double.infinity,
+                  height: 200,
+                  child: Container(
+                    alignment: Alignment(0.0,4.8),
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(dealerProfile['logo']),
+                      radius: 80.0,
+                    ),
+                  ),
+                ),
               ),
 
-            ),
 
-            const Divider(
-              color: Colors.black,
-              height: 25,
-              thickness: 2,
-              indent: 10,
-              endIndent: 5,
-            ),
-            const SizedBox(height: 10,),
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
 
-                  Text(dealerProfile['name'] ?? '', style: TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w800),),
-                  const SizedBox(height: 10,),
-                  Text(dealerProfile['address'] ?? '',
-                    style: TextStyle(fontSize: 18),),
-                  const SizedBox(height: 10,),
-                  Text(dealerProfile['city'] ?? '',
-                    style: TextStyle(fontSize: 18),),
-                  const SizedBox(height: 10,),
-                  Text(dealerProfile['state'] ?? '',
-                    style: TextStyle(fontSize: 18),),
-                  const SizedBox(height: 10,),
-                  Text(dealerProfile['direct'] ?? '',
-                    style: TextStyle(fontSize: 18),),
-                  const SizedBox(height: 10,),
 
-                  Row(
-                    children: [
-                      const SizedBox(width: 30,),
+              SizedBox(
+                height: 100,
+              ),
+              Text(
+                dealerProfile['name'] ?? ''
+                ,style: TextStyle(
+                  fontSize: 25.0,
+                  color:Colors.black,
+                  letterSpacing: 2.0,
 
-                      InkWell(
-                        onTap: () {
+                  fontWeight: FontWeight.w800
+              ),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              Text(
+                dealerProfile['address'] ?? ''
+                ,style: TextStyle(
+                  fontSize: 20.0,
+                  fontStyle: FontStyle.italic,
+                  color:Colors.black,
+
+                  fontWeight: FontWeight.w600
+              ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                dealerProfile['city'] ?? ''
+                ,style: TextStyle(
+                  fontSize: 20.0,
+                  color:Colors.black,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.w600
+              ),
+              ),
+
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                dealerProfile['state'] ?? ''
+                ,style: TextStyle(
+                  fontSize: 20.0,
+                  color:Colors.black,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.w600
+              ),
+              ),
+
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                dealerProfile['direct'] ?? ''
+                ,style: TextStyle(
+                  fontSize: 20.0,
+                  color:Colors.black,
+                  fontStyle: FontStyle.italic,                  fontWeight: FontWeight.w600
+              ),
+              ),
+
+
+
+              SizedBox(
+                height: 50,
+              ),
+
+
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children:<Widget> [
+                  ///  call  buttton
+                  Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: new BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              stops: [0.0 , 0.5, 1.0],
+                              colors: [Colors.white, Colors.white, Colors.blueGrey]
+                          )
+                      ),
+                      child: RawMaterialButton(
+                        onPressed: () async {
                           _launchPhoneURL(dealerProfile['direct']);
                         },
-                        child: Container(
-                            width: 15.w,
-                            height: 6.h,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(color: Colors.black)
-                            ),
-                            child: Icon(Icons.call, size: 30)),
+                        child: new Icon(
+                          Icons.call,
+                          color: Colors.grey[600],
+                          size: 28.0,
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.white,
+                        padding: const EdgeInsets.all(18.0),
+                      )
+                  ),
+
+                  ///  call end buttton
+
+                  ///  gmail_buttton
+                  Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: new BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              stops: [0.0 , 0.5, 1.0],
+                              colors: [Colors.white, Colors.white, Colors.blueGrey]
+                          )
                       ),
-                      const SizedBox(width: 90,),
-
-                      InkWell(
-                        onTap: () async {
-                          Uri sms = Uri.parse('sms:101022?body=your+text+here');
-                          if (await launchUrl(sms)) {
-                            //app opened
-                          } else {
-                            //app is not opened
-                          }
-                        },
-                        child: Container(
-                            width: 15.w,
-                            height: 6.h,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(color: Colors.black)
-                            ),
-                            child: Icon(Icons.message, size: 30)),
-                      ),
-
-                      const SizedBox(width: 90,),
-
-                      InkWell(
-                        onTap: () async {
+                      child: RawMaterialButton(
+                        onPressed: () async {
                           String email = Uri.encodeComponent(dealerProfile['emailforapp'] );
 
                           //output: Hello%20Flutter
@@ -170,25 +244,91 @@ class _DealerDetailsState extends State<DealerDetails> {
                             //email app is not opened
                           }
                         },
-                        child: Container(
-                            width: 15.w,
-                            height: 6.h,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(color: Colors.black)
-                            ),
-                            child: Icon(Icons.mail, size: 30)),
+                        child: new Icon(
+                          Icons.mail,
+                          color: Colors.grey[600],
+                          size: 28.0,
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.white,
+                        padding: const EdgeInsets.all(18.0),
+                      )
+                  ),
+
+
+                  ///  gmail_buttton
+
+
+
+
+                  /// messaaages buttton
+                  Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: new BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                              stops: [0.0 , 0.5, 1.0],
+                              colors: [Colors.white, Colors.white, Colors.blueGrey]
+                          )
                       ),
+                      child: RawMaterialButton(
+                        onPressed: () async {
+                          Uri sms = Uri.parse(dealerProfile['direct']);
+                          if (await launchUrl(sms)) {
+                            //app opened
+                          } else {
+                            //app is not opened
+                          }
+                        },
+                        child: new Icon(
+                          Icons.message,
+                          color: Colors.grey[600],
+                          size: 28.0,
+                        ),
+                        shape: new CircleBorder(),
+                        elevation: 2.0,
+                        fillColor: Colors.white,
+                        padding: const EdgeInsets.all(18.0),
+                      )
+                  ),
 
 
-
-                    ],
-                  )
                 ],
               ),
-            ),
+              const SizedBox(
+                height: 30,
+              ),
+              ElevatedButton(
+                onPressed: () {
 
-          ],
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const DealerList()),
+                  );
+                },
+
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        side:
+                        const BorderSide(width: 7, color: Colors.grey),
+                        borderRadius: BorderRadius.circular(16)),
+                    primary: Colors.deepOrangeAccent,
+                    padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 120)),
+                child: const Text(
+                  'Back',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+              ),
+            ],
+          ),
         ),
       )
           : const Center(child: CircularProgressIndicator()),
