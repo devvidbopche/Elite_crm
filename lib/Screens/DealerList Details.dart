@@ -1,21 +1,23 @@
 
 
 
+import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
+import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
+import '../../Utils/color_constants.dart';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
 
-import '../Utils/app_baar.dart';
-import 'Homepage.dart';
+
+import 'bottomNavigationPages.dart';
 
 class DealerDetails extends StatefulWidget {
   String dealerid;
   Widget _buildCoverImage(Size screenSize) {
     return Container(
       height: screenSize.height / 2.6,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage('assets/images/cover.jpeg'),
           fit: BoxFit.cover,
@@ -32,7 +34,7 @@ class DealerDetails extends StatefulWidget {
 
 class _DealerDetailsState extends State<DealerDetails> {
   Map<String, dynamic> dealerProfile = {};
-
+  var currentIndex = 0;
   Future<void> _getDealerProfile(String? dealerid) async {
     var body = {"dealerid": dealerid};
 
@@ -59,51 +61,148 @@ class _DealerDetailsState extends State<DealerDetails> {
     _getDealerProfile(widget.dealerid);
   }
 
+  List<IconData> listOfIcons = [
+    Icons.arrow_back_ios,
+  ];
+
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Scaffold(
+      // bottomNavigationBar: Container(
+      //
+      //   margin: const EdgeInsets.only(left: 130,right: 130,bottom: 20),
+      //   height: size.width * .155,
+      //
+      //   decoration: BoxDecoration(
+      //     color: Colors.white,
+      //     boxShadow: [
+      //       BoxShadow(
+      //         color: Colors.black.withOpacity(.15),
+      //         blurRadius: 30,
+      //         offset: const Offset(0, 10),
+      //       ),
+      //     ],
+      //     borderRadius: BorderRadius.circular(50),
+      //   ),
+      //   child: ListView.builder(
+      //     itemCount: 1, // change to 3
+      //     scrollDirection: Axis.horizontal,
+      //     padding: EdgeInsets.symmetric(horizontal: size.width * .024),
+      //     itemBuilder: (context, index) => InkWell(
+      //       onTap: () {
+      //         Navigator.push(
+      //                           context,
+      //                           MaterialPageRoute(builder: (context) => const Homepage()),
+      //                         );
+      //       },
+      //       splashColor: Colors.transparent,
+      //       highlightColor: Colors.transparent,
+      //       child: Column(
+      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //         children: [
+      //           AnimatedContainer(
+      //             duration: const Duration(milliseconds: 1500),
+      //             curve: Curves.fastLinearToSlowEaseIn,
+      //             margin: EdgeInsets.only(
+      //               bottom: index == currentIndex ? 0 : size.width * .029,
+      //               right: index == 1 ? 0 : size.width * .0422, // adjust margin for 2 icons
+      //               left: index == 1 ? 0 : size.width * .0422,
+      //             ),
+      //             width: size.width * .235,
+      //             height: index == currentIndex ? size.width * .014 : 0,
+      //             decoration:  const BoxDecoration(
+      //               borderRadius: BorderRadius.vertical(
+      //                 bottom: Radius.circular(10),
+      //               ),
+      //             ),
+      //           ),
+      //           Row(
+      //             children: [
+      //               Icon(
+      //                 listOfIcons[index],
+      //                 size: size.width * .076,
+      //                 color: index == currentIndex
+      //                     ? ColorConstants.deppp
+      //                     : Colors.black38,
+      //               ),
+      //               const Text('Go Back',style: TextStyle(fontSize: 17),)
+      //             ],
+      //           ),
+      //           SizedBox(height: size.width * .03),
+      //         ],
+      //       ),
+      //     ),
+      //   ),
+      // ),
 
-
-      backgroundColor: Color.fromARGB(255, 132, 134, 134),
-
+      bottomNavigationBar: Row(
+          children: [
+            InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Homepage()),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(15),
+                  width: 100.w,
+                  height: 5.8.h,
+                  color: ColorConstants.deppp,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Text("Continue "),
+                      Icon(
+                        Icons.arrow_back,
+                        color: Colors.black,
+                        size:20.sp,
+                      ),
+                      const Text( " Go Back", style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500
+                      ),)
+                    ],
+                  ),
+                )),
+          ]),
       appBar: AppBar(
-        title: Text('Dealer List'),
-        actions: [
+        automaticallyImplyLeading: false,
+        title: const Text('Dealer Profile'),
+        actions: const [
 
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
           ),
         ],
         centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 213, 85, 40),
+        backgroundColor: const Color.fromARGB(255, 213, 85, 40),
 
 
       ),
-      drawer: show(),
       body: dealerProfile.isNotEmpty
           ? SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 0),
           child: Column(
-
             children: [
-
-
               Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     image: DecorationImage(
                         image: NetworkImage(
-                            "https://images.unsplash.com/photo-1557682260-96773eb01377?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=829&q=80"
+                            "https://images.unsplash.com/photo-1550955295-77d6e18a24da?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
                         ),
                         fit: BoxFit.cover
                     )
                 ),
 
-                child: Container(
+                child: SizedBox(
                   width: double.infinity,
                   height: 200,
                   child: Container(
-                    alignment: Alignment(0.0,4.8),
+                    alignment: const Alignment(-0.9, 4.5),
                     child: CircleAvatar(
                       backgroundImage: NetworkImage(dealerProfile['logo']),
                       radius: 80.0,
@@ -114,70 +213,86 @@ class _DealerDetailsState extends State<DealerDetails> {
 
 
 
-
-              SizedBox(
+              const SizedBox(
                 height: 100,
               ),
-              Text(
-                dealerProfile['name'] ?? ''
-                ,style: TextStyle(
-                  fontSize: 25.0,
-                  color:Colors.black,
-                  letterSpacing: 2.0,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      dealerProfile['name'] ?? ''
+                      ,style: const TextStyle(
+                        fontSize: 20.0,
+                        color:Colors.black,
+                        letterSpacing: 2.0,
 
-                  fontWeight: FontWeight.w800
-              ),
-              ),
-              SizedBox(
-                height: 40,
-              ),
-              Text(
-                dealerProfile['address'] ?? ''
-                ,style: TextStyle(
-                  fontSize: 20.0,
-                  fontStyle: FontStyle.italic,
-                  color:Colors.black,
+                        fontWeight: FontWeight.w800
+                    ),
+                    ),
 
-                  fontWeight: FontWeight.w600
-              ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                dealerProfile['city'] ?? ''
-                ,style: TextStyle(
-                  fontSize: 20.0,
-                  color:Colors.black,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.w600
-              ),
+                    const Divider(
+                      color: Colors.black,
+                      height: 25,
+                      thickness: 2,
+                      indent: 5,
+                      endIndent: 5,
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    Text(
+                      dealerProfile['address'] ?? ''
+                      ,style: const TextStyle(
+                        fontSize: 20.0,
+                        //
+                        color:Colors.black,
+
+                        fontWeight: FontWeight.w600
+                    ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      dealerProfile['city'] ?? ''
+                      ,style: const TextStyle(
+                        fontSize: 20.0,
+                        color:Colors.black,
+
+                        fontWeight: FontWeight.w600
+                    ),
+                    ),
+
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      dealerProfile['state'] ?? ''
+                      ,style: const TextStyle(
+                        fontSize: 20.0,
+                        color:Colors.black,
+
+                        fontWeight: FontWeight.w600
+                    ),
+                    ),
+
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      dealerProfile['direct'] ?? ''
+                      ,style: const TextStyle(
+                        fontSize: 20.0,
+                        color:Colors.black,
+                       fontWeight: FontWeight.w600
+                    ),
+                    ),
+                  ],
+                ),
               ),
 
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                dealerProfile['state'] ?? ''
-                ,style: TextStyle(
-                  fontSize: 20.0,
-                  color:Colors.black,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.w600
-              ),
-              ),
-
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                dealerProfile['direct'] ?? ''
-                ,style: TextStyle(
-                  fontSize: 20.0,
-                  color:Colors.black,
-                  fontStyle: FontStyle.italic,                  fontWeight: FontWeight.w600
-              ),
-              ),
 
 
 
@@ -190,31 +305,22 @@ class _DealerDetailsState extends State<DealerDetails> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children:<Widget> [
-                  ///  call  buttton
                   Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: new BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              stops: [0.0 , 0.5, 1.0],
-                              colors: [Colors.white, Colors.white, Colors.blueGrey]
-                          )
-                      ),
+                      padding: const EdgeInsets.all(10),
+
                       child: RawMaterialButton(
                         onPressed: () async {
                           _launchPhoneURL(dealerProfile['direct']);
                         },
-                        child: new Icon(
+
+                        elevation: 2.0,
+                        fillColor: Colors.blue,
+                        padding: const EdgeInsets.all(18.0),
+                        child:  Icon(
                           Icons.call,
-                          color: Colors.grey[600],
+                          color: Colors.black,
                           size: 28.0,
                         ),
-                        shape: new CircleBorder(),
-                        elevation: 2.0,
-                        fillColor: Colors.white,
-                        padding: const EdgeInsets.all(18.0),
                       )
                   ),
 
@@ -222,16 +328,8 @@ class _DealerDetailsState extends State<DealerDetails> {
 
                   ///  gmail_buttton
                   Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: new BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              stops: [0.0 , 0.5, 1.0],
-                              colors: [Colors.white, Colors.white, Colors.blueGrey]
-                          )
-                      ),
+                      padding: const EdgeInsets.all(10),
+
                       child: RawMaterialButton(
                         onPressed: () async {
                           String email = Uri.encodeComponent(dealerProfile['emailforapp'] );
@@ -244,15 +342,15 @@ class _DealerDetailsState extends State<DealerDetails> {
                             //email app is not opened
                           }
                         },
-                        child: new Icon(
+
+                        elevation: 2.0,
+                        fillColor: Colors.blue,
+                        padding: const EdgeInsets.all(18.0),
+                        child:  Icon(
                           Icons.mail,
-                          color: Colors.grey[600],
+                          color: Colors.black,
                           size: 28.0,
                         ),
-                        shape: new CircleBorder(),
-                        elevation: 2.0,
-                        fillColor: Colors.white,
-                        padding: const EdgeInsets.all(18.0),
                       )
                   ),
 
@@ -264,16 +362,8 @@ class _DealerDetailsState extends State<DealerDetails> {
 
                   /// messaaages buttton
                   Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: new BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              stops: [0.0 , 0.5, 1.0],
-                              colors: [Colors.white, Colors.white, Colors.blueGrey]
-                          )
-                      ),
+                      padding: const EdgeInsets.all(10),
+
                       child: RawMaterialButton(
                         onPressed: () async {
                           Uri sms = Uri.parse(dealerProfile['direct']);
@@ -283,15 +373,15 @@ class _DealerDetailsState extends State<DealerDetails> {
                             //app is not opened
                           }
                         },
-                        child: new Icon(
+
+                        elevation: 2.0,
+                        fillColor: Colors.blue,
+                        padding: const EdgeInsets.all(18.0),
+                        child:  Icon(
                           Icons.message,
-                          color: Colors.grey[600],
+                          color: Colors.black,
                           size: 28.0,
                         ),
-                        shape: new CircleBorder(),
-                        elevation: 2.0,
-                        fillColor: Colors.white,
-                        padding: const EdgeInsets.all(18.0),
                       )
                   ),
 
@@ -301,32 +391,7 @@ class _DealerDetailsState extends State<DealerDetails> {
               const SizedBox(
                 height: 30,
               ),
-              ElevatedButton(
-                onPressed: () {
 
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const DealerList()),
-                  );
-                },
-
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        side:
-                        const BorderSide(width: 7, color: Colors.grey),
-                        borderRadius: BorderRadius.circular(16)),
-                    primary: Colors.deepOrangeAccent,
-                    padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 120)),
-                child: const Text(
-                  'Back',
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
-                ),
-              ),
             ],
           ),
         ),
@@ -336,7 +401,7 @@ class _DealerDetailsState extends State<DealerDetails> {
   }
 
   _launchPhoneURL(String phoneNumber) async {
-    String url = 'tel:' + phoneNumber;
+    String url = 'tel:$phoneNumber';
     if (await canLaunch(url)) {
       await launch(url);
     } else {

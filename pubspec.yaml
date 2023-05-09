@@ -58,6 +58,8 @@ dependencies:
   shimmer: ^2.0.0
   flutter_phone_direct_caller: ^2.1.0
   url_launcher: ^6.0.12
+  flutter_animated_button: ^2.0.3
+  floating_bottom_navigation_bar: ^1.5.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

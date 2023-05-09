@@ -1,11 +1,11 @@
-import 'package:elite_crm/Screens/Homepage.dart';
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    import 'package:elite_crm/Screens/Homepage.dart';
 import 'package:elite_crm/Screens/LoginScreen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 import 'Bloc/Login_Bloc/LoginBloc.dart';
-
+import 'package:elite_crm/Screens/splesh_screen.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: const LoginPage(),
+          home:  LoginPage(),
         );
       }),
     );

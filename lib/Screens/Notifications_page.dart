@@ -1,24 +1,24 @@
 
-// ignore_for_file: file_names
+// ignore_for_file: file_titles
 
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import '../Service/dealerList.dart';
+import '../Service/notifictionService.dart';
 import '../Utils/app_baar.dart';
 import 'DealerList Details.dart';
 import 'Notifications_page.dart';
 
-
-class DealerList extends StatefulWidget {
-  const DealerList({Key? key}) : super(key: key);
+class Notifications extends StatefulWidget {
+  const Notifications({Key? key}) : super(key: key);
 
   @override
-  State<DealerList> createState() => _DealerListState();
+  State<Notifications> createState() => _NotificationsState();
 }
 
-class _DealerListState extends State<DealerList> {
+class _NotificationsState extends State<Notifications> {
   final TextEditingController searchdealer = TextEditingController();
-  GlobalService globalService = GlobalService();
+  notifictionService globalService = notifictionService();
 
 
   @override
@@ -49,10 +49,7 @@ class _DealerListState extends State<DealerList> {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Notifications()),
-              );
+
             },
           )
         ],
@@ -68,22 +65,11 @@ class _DealerListState extends State<DealerList> {
           padding: const EdgeInsets.only(top: 50,left: 10,right: 10),
           child: Column(
             children: [
-              TextFormField(
-                controller: searchdealer,
-                onChanged: (value) {
-                  setState(() {});
-                },
-                decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    suffixIcon: const Icon(Icons.search),
-                    hintText: 'Search',
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5))),
-              ),
+
               Expanded(
                   child: FutureBuilder(
-                    future: globalService.DealerListapi(),
+                    future: globalService.notificationapi(),
+
                     builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
                       if (!snapshot.hasData) {
                         return ListView.builder(
@@ -105,35 +91,35 @@ class _DealerListState extends State<DealerList> {
                       return ListView.builder(
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
-                            String dealer = snapshot.data![index]['name'];
-                            String dealerid = snapshot.data![index]['dealerid'];
+                            String dealer = snapshot.data![index]['title'];
+                            //tring id = snapshot.data![index]['id'];
 
                             if (searchdealer.text.isEmpty) {
                               return Column(
-                                children: [
-                                  Card(
-                                    child: ListTile(
-                                      title: Text(snapshot.data![index]['name'],style: const TextStyle(fontWeight: FontWeight.bold),),
-                                      onTap: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => DealerDetails(dealerid :dealerid)));
-                                      },
-                                    ),
-                                  )
-                                ],
+                              children: [
+                                Card(
+                                  child: ListTile(
+                                    title: Text(snapshot.data![index]['title'],style: const TextStyle(fontWeight: FontWeight.bold),),
+                                    // onTap: (){
+                                    //   Navigator.push(context, MaterialPageRoute(builder: (context) => DealerDetails(id :id)));
+                                    // },
+                                  ),
+                                )
+                              ],
                               );
                             } else if (dealer.toLowerCase().contains(searchdealer.text.toLowerCase())) {
                               return Column(
-                                children: [
-                                  Card(
-                                    child: ListTile(
-                                      title: Text(snapshot.data![index]['name'],style: const TextStyle(fontWeight: FontWeight.bold),),
-                                      onTap: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => DealerDetails(dealerid :dealerid )));
-
-                                      },
-                                    ),
-                                  )
-                                ],
+                              children: [
+                                Card(
+                                  child: ListTile(
+                                    title: Text(snapshot.data![index]['title'],style: const TextStyle(fontWeight: FontWeight.bold),),
+                                //     onTap: (){
+                                //       Navigator.push(context, MaterialPageRoute(builder: (context) => DealerDetails(id :id )));
+                                // //
+                                //     },
+                                  ),
+                                )
+                              ],
                               );
                             } else {
                               return Container();
@@ -147,9 +133,9 @@ class _DealerListState extends State<DealerList> {
       ),
     );
   }
-  // List<IconData> listOfIcons = [
-  //   Icons.home_rounded,
-  //   Icons.list,
-  //   Icons.add_circle,
-  // ];
+// List<IconData> listOfIcons = [
+//   Icons.home_rounded,
+//   Icons.list,
+//   Icons.add_circle,
+// ];
 }
