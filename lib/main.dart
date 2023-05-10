@@ -1,5 +1,6 @@
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     import 'package:elite_crm/Screens/Homepage.dart';
 import 'package:elite_crm/Screens/LoginScreen/login_screen.dart';
+import 'package:elite_crm/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
@@ -29,7 +30,13 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
+          initialRoute: SplashRoute,
+          routes: routes,
           home:  LoginPage(),
+
+
+
+
         );
       }),
     );
