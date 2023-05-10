@@ -10,8 +10,8 @@ import '../../Bloc/Login_Bloc/LoginState.dart';
 import '../../Utils/color_constants.dart';
 import '../../Utils/decoration_constants.dart';
 import '../bottomNavigationPages.dart';
-
-
+import 'package:elite_crm/Bloc/shared_preferences_service.dart';
+import 'package:elite_crm/routes.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -20,6 +20,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final PrefService _prefService = PrefService();
+
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool _passwordVisible = false;
@@ -162,7 +164,15 @@ class _LoginPageState extends State<LoginPage> {
                    ],
                  ), const SizedBox(height: 10,),
                  SizedBox(width: 350,height: 50,
-                     child: ElevatedButton(onPressed: () async {
+                     child: ElevatedButton(
+                         onPressed: () async {
+                           _prefService.createCache(emailController.text).whenComplete(() {
+                             if (passwordController.text.isNotEmpty && emailController.text.isNotEmpty) {
+                               Navigator.of(context).pushNamed(DealerList as String);
+
+                             }
+                           });
+
                        if (emailController.text.isEmpty) {
                          // Dialogs.showValidationMessage(context,
                          //     MessageConstants.emailEmptyValidation);

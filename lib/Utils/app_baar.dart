@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-
+import 'package:elite_crm/Bloc/shared_preferences_service.dart';
 import '../Screens/LoginScreen/login_screen.dart';
-
+ import '../routes.dart';
 class show extends StatelessWidget {
+  final PrefService _prefService = PrefService();
+
   final padding = EdgeInsets.symmetric(horizontal: 20);
   @override
   Widget build(BuildContext context) {
@@ -84,12 +86,12 @@ class show extends StatelessWidget {
                 children: [
                   Text(
                     name,
-                    style: TextStyle(fontSize: 20, color: Colors.white),
+                    style: TextStyle(fontSize: 20, color: Colors.white,fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 4),
                   Text(
                     email,
-                    style: TextStyle(fontSize: 14, color: Colors.white),
+                    style: TextStyle(fontSize: 14, color: Colors.white,fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -104,29 +106,6 @@ class show extends StatelessWidget {
         ),
       );
 
-  // Widget buildSearchField() {
-  //   final color = Colors.white;
-
-  // return TextField(
-  //   style: TextStyle(color: color),
-  //   decoration: InputDecoration(
-  //     contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-  //     hintText: 'Profile',
-  //     hintStyle: TextStyle(color: color),
-  //     prefixIcon: Icon(Icons.search, color: color),
-  //     filled: true,
-  //     fillColor: Colors.white12,
-  //     enabledBorder: OutlineInputBorder(
-  //       borderRadius: BorderRadius.circular(5),
-  //       borderSide: BorderSide(color: color.withOpacity(0.7)),
-  //     ),
-  //     focusedBorder: OutlineInputBorder(
-  //       borderRadius: BorderRadius.circular(5),
-  //       borderSide: BorderSide(color: color.withOpacity(0.7)),
-  //     ),
-  //   ),
-  // );
-  // }
 
   Widget buildMenuItem({
     required String text,
@@ -144,10 +123,13 @@ class show extends StatelessWidget {
     );
   }
 
-  void selectedItem(BuildContext context, int index) {
+  void selectedItem(BuildContext context, int index)
+  async
+  {
     Navigator.of(context).pop();
 
-    switch (index) {
+    switch (index)
+    {
       case 0:
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => LoginPage(),
@@ -159,9 +141,10 @@ class show extends StatelessWidget {
         ));
         break;
       case 5:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) =>LoginPage(),
-        ));
+
+        await _prefService.removeCache("password").whenComplete(() {
+          Navigator.of(context).pushNamed(LoginRoute);
+        });
 
     }
   }
